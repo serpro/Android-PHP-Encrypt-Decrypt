@@ -72,17 +72,28 @@ public class MCrypt {
                 }
                 return decrypted;
         }
+                
 
-	public static String bytesToHex(byte[] data)
-	{
-		char[] chars = new char[2 * data.length];
-		for (int i = 0; i < data.length; ++i)
-		{
-			chars[2 * i] = HEX_CHARS[(data[i] & 0xF0) >>> 4];
-			chars[2 * i + 1] = HEX_CHARS[data[i] & 0x0F];
-		}
-		return new String(chars);
-	}
+        public static String bytesToHex(byte[] data)
+        {
+                if (data==null)
+                {
+                        return null;
+                }
+                
+                int len = data.length;
+                String str = "";
+                for (int i=0; i<len; i++) {
+                        if ((data[i]&0xFF)<16)
+			{
+                                str = str + " " + java.lang.Integer.toHexString(data[i]&0xFF);
+			} else
+			{
+	                        str = str + java.lang.Integer.toHexString(data[i]&0xFF);
+			}
+                }
+                return str;
+        }
 
 
 
