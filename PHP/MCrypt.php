@@ -11,14 +11,12 @@ class MCrypt
         }
 
         function encrypt($str) {
-
-          //$key = $this->hex2bin($key);    
           $iv = $this->iv;
 
-          $td = mcrypt_module_open('rijndael-128', '', 'cbc', $iv);
+          $td = mcrypt_module_open('rijndael-128', ' ', 'cbc', $iv);
 
           mcrypt_generic_init($td, $this->key, $iv);
-          $encrypted = mcrypt_generic($td, $str);
+          $encrypted = mcrypt_generic($td, utf8_decode($str));
 
           mcrypt_generic_deinit($td);
           mcrypt_module_close($td);
@@ -27,11 +25,10 @@ class MCrypt
         }
 
         function decrypt($code) {
-          //$key = $this->hex2bin($key);
           $code = $this->hex2bin($code);
           $iv = $this->iv;
 
-          $td = mcrypt_module_open('rijndael-128', '', 'cbc', $iv);
+          $td = mcrypt_module_open('rijndael-128', ' ', 'cbc', $iv);
 
           mcrypt_generic_init($td, $this->key, $iv);
           $decrypted = mdecrypt_generic($td, $code);
