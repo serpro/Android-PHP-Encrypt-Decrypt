@@ -12,6 +12,8 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class MCrypt {
 
+        static char[] HEX_CHARS = {'0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f'};
+
         private String iv = "fedcba9876543210";//Dummy iv (CHANGE IT!)
         private IvParameterSpec ivspec;
         private SecretKeySpec keyspec;
@@ -66,35 +68,37 @@ public class MCrypt {
                         cipher.init(Cipher.DECRYPT_MODE, keyspec, ivspec);
 
                         decrypted = cipher.doFinal(hexToBytes(code));
+                        //Remove trailing zeroes
+                        if( decrypted.length > 0)
+                        {
+                            int trim = 0;
+                            for( int i = decrypted.length - 1; i >= 0; i-- ) if( decrypted[i] == 0 ) trim++;
+
+                            if( trim > 0 )
+                            {
+                                byte[] newArray = new byte[decrypted.length - trim];
+                                System.arraycopy(decrypted, 0, newArray, 0, decrypted.length - trim);
+                                decrypted = newArray;
+                            }
+                        }
                 } catch (Exception e)
                 {
                         throw new Exception("[decrypt] " + e.getMessage());
                 }
                 return decrypted;
-        }
-                
+        }      
 
-        public static String bytesToHex(byte[] data)
+
+        public static String bytesToHex(byte[] buf)
         {
-                if (data==null)
-                {
-                        return null;
-                }
-                
-                int len = data.length;
-                String str = "";
-                for (int i=0; i<len; i++) {
-                        if ((data[i]&0xFF)<16)
-			{
-                                str = str + " " + java.lang.Integer.toHexString(data[i]&0xFF);
-			} else
-			{
-	                        str = str + java.lang.Integer.toHexString(data[i]&0xFF);
-			}
-                }
-                return str;
+            char[] chars = new char[2 * buf.length];
+            for (int i = 0; i < buf.length; ++i)
+            {
+                chars[2 * i] = HEX_CHARS[(buf[i] & 0xF0) >>> 4];
+                chars[2 * i + 1] = HEX_CHARS[buf[i] & 0x0F];
+            }
+            return new String(chars);
         }
-
 
 
         public static byte[] hexToBytes(String str) {
