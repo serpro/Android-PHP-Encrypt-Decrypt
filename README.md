@@ -6,25 +6,25 @@ Encrypt / Decrypt Between Android and PHP and vice-versa
 ######################
 # HOW TO USE IT (JAVA)
 
-MCrypt mcrypt = new MCrypt();
+`MCrypt mcrypt = new MCrypt();`
 
 /* Encrypt */
 
-String encrypted = MCrypt.bytesToHex( mcrypt.encrypt("Text to Encrypt") );
+`String encrypted = MCrypt.bytesToHex( mcrypt.encrypt("Text to Encrypt") );`
 
 /* Decrypt */
 
-String decrypted = new String( mcrypt.decrypt( encrypted ) );
+`String decrypted = new String( mcrypt.decrypt( encrypted ) );`
 
 ######################
 # HOW TO USE IT (PHP)
 
-$mcrypt = new MCrypt();
+`$mcrypt = new MCrypt();`
 
 /* Encrypt */
 
-$encrypted = $mcrypt->encrypt("Text to encrypt");
+`$encrypted = $mcrypt->encrypt("Text to encrypt");`
 
 /* Decrypt */
 
-$decrypted = $mcrypt->decrypt($encrypted);
+`$decrypted = $mcrypt->decrypt($encrypted);`
